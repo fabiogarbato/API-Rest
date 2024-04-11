@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using JobApi.Models;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Extensions.Logging;
 
 namespace JobApi.Controllers
 {
@@ -11,7 +8,6 @@ namespace JobApi.Controllers
     public class JobsController : ControllerBase
     {
         private readonly JobContext _context;
-
         private readonly ILogger<JobsController> _logger;
 
         public JobsController(JobContext context, ILogger<JobsController> logger)
@@ -71,35 +67,58 @@ namespace JobApi.Controllers
         [HttpPost]
         public ActionResult<Job> Create(Job job)
         {
-            _context.Jobs.Add(job);
-            _context.SaveChanges();
+            try
+            {
+                if (job == null)
+                {
+                    return BadRequest(new { message = "O objeto Job é nulo." });
+                }
 
-            return CreatedAtAction(nameof(GetById), new { id = job.Id }, job);
+                _context.Jobs.Add(job);
+                _context.SaveChanges();
+
+                return CreatedAtAction(nameof(GetById), new { id = job.Id }, job);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ocorreu um erro ao criar um novo emprego.");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro ao processar sua solicitação." });
+            }
         }
 
         // PUT: /jobs/{id}
         [HttpPut("{id}")]
         public IActionResult Update(int id, Job job)
         {
-            if (id != job.Id)
+            try
             {
-                return BadRequest();
-            }
+                if (id != job.Id)
+                {
+                    return BadRequest(new { message = "O ID fornecido na URL não corresponde ao ID do objeto Job." });
+                }
 
-            var existingJob = _context.Jobs.Find(id);
-            if (existingJob == null)
+                var existingJob = _context.Jobs.Find(id);
+                if (existingJob == null)
+                {
+                    return NotFound(new { message = $"Emprego com ID {id} não encontrado." });
+                }
+
+                existingJob.Title = job.Title;
+                existingJob.Description = job.Description;
+                existingJob.Location = job.Location;
+                existingJob.Salary = job.Salary;
+
+                _context.SaveChanges();
+
+                return NoContent(); 
+            }
+            catch (Exception ex)
             {
-                return NotFound();
+                _logger.LogError(ex, "Ocorreu um erro ao atualizar o emprego com ID {JobId}", id);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro ao processar sua solicitação." });
             }
-
-            existingJob.Title = job.Title;
-            existingJob.Description = job.Description;
-            existingJob.Location = job.Location;
-            existingJob.Salary = job.Salary;
-
-            _context.SaveChanges();
-
-            return NoContent();
         }
 
         // DELETE: /jobs/{id}
