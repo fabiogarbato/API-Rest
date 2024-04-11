@@ -22,7 +22,7 @@ namespace JobApi.Controllers
         {
             try
             {
-                var jobs = _context.Jobs.ToList();
+                var jobs = _context.Jobs?.ToList();
 
                 if (jobs == null || jobs.Count == 0)
                 {
@@ -46,7 +46,7 @@ namespace JobApi.Controllers
         {
             try
             {
-                var job = _context.Jobs.Find(id);
+                var job = _context.Jobs?.Find(id);
 
                 if (job == null)
                 {
@@ -74,7 +74,7 @@ namespace JobApi.Controllers
                     return BadRequest(new { message = "O objeto Job é nulo." });
                 }
 
-                _context.Jobs.Add(job);
+                _context.Jobs?.Add(job);
                 _context.SaveChanges();
 
                 return CreatedAtAction(nameof(GetById), new { id = job.Id }, job);
@@ -98,7 +98,7 @@ namespace JobApi.Controllers
                     return BadRequest(new { message = "O ID fornecido na URL não corresponde ao ID do objeto Job." });
                 }
 
-                var existingJob = _context.Jobs.Find(id);
+                var existingJob = _context.Jobs?.Find(id);
                 if (existingJob == null)
                 {
                     return NotFound(new { message = $"Emprego com ID {id} não encontrado." });
@@ -125,17 +125,27 @@ namespace JobApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var job = _context.Jobs.Find(id);
-
-            if (job == null)
+            try
             {
-                return NotFound();
+                var job = _context.Jobs?.Find(id);
+
+                if (job == null)
+                {
+                    return NotFound(new { message = $"Emprego com ID {id} não encontrado." });
+                }
+
+                _context.Jobs?.Remove(job);
+                _context.SaveChanges();
+
+                return NoContent();
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ocorreu um erro ao excluir o emprego com ID {JobId}", id);
 
-            _context.Jobs.Remove(job);
-            _context.SaveChanges();
-
-            return NoContent();
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro ao processar sua solicitação." });
+            }
         }
+
     }
 }
