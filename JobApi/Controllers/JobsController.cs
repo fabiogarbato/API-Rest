@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using JobApi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JobApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class JobsController : ControllerBase
@@ -34,7 +36,6 @@ namespace JobApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Ocorreu um erro ao buscar todos os empregos.");
-
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro ao processar sua solicitação." });
             }
         }
@@ -82,7 +83,6 @@ namespace JobApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Ocorreu um erro ao criar um novo emprego.");
-
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro ao processar sua solicitação." });
             }
         }
@@ -116,7 +116,6 @@ namespace JobApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Ocorreu um erro ao atualizar o emprego com ID {JobId}", id);
-
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro ao processar sua solicitação." });
             }
         }
@@ -142,7 +141,6 @@ namespace JobApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Ocorreu um erro ao excluir o emprego com ID {JobId}", id);
-
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Ocorreu um erro ao processar sua solicitação." });
             }
         }

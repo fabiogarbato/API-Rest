@@ -1,30 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projetos\\API-Rest\\JobApi\\JobApi.csproj": {}
+    "D:\\projetos\\API-Rest\\JobApi\\JobApi.csproj": {}
   },
   "projects": {
-    "C:\\Projetos\\API-Rest\\JobApi\\JobApi.csproj": {
+    "D:\\projetos\\API-Rest\\JobApi\\JobApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projetos\\API-Rest\\JobApi\\JobApi.csproj",
+        "projectUniqueName": "D:\\projetos\\API-Rest\\JobApi\\JobApi.csproj",
         "projectName": "JobApi",
-        "projectPath": "C:\\Projetos\\API-Rest\\JobApi\\JobApi.csproj",
-        "packagesPath": "C:\\Users\\fabio\\.nuget\\packages\\",
-        "outputPath": "C:\\Projetos\\API-Rest\\JobApi\\obj\\",
+        "projectPath": "D:\\projetos\\API-Rest\\JobApi\\JobApi.csproj",
+        "packagesPath": "C:\\Users\\fabio.garbato\\.nuget\\packages\\",
+        "outputPath": "D:\\projetos\\API-Rest\\JobApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\fabio\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\fabio.garbato\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -32,12 +32,21 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
               "version": "[6.0.4, )"
@@ -66,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
